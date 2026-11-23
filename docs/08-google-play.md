@@ -65,6 +65,10 @@ adb shell 'sqlite3 /data/user/0/com.google.android.gms/databases/gservices.db \
 
 Register that decimal value at https://www.google.com/android/uncertified (Google sign-in), wait for it to apply (can take hours), then restart the machine and sign in to the Play Store.
 
+## Result (Android 16, M3 Pro)
+
+Sign-in, device registration and installing Brave from the Play Store all work.
+
 ## Limits
 
 | Limit | Why |
@@ -72,4 +76,3 @@ Register that decimal value at https://www.google.com/android/uncertified (Googl
 | banking, wallet, many games, DRM apps refuse or hide | Play Integrity needs a locked bootloader and hardware-backed attestation since May 2025 (https://developer.android.com/google/play/integrity/improvements) |
 | 32-bit-only ARM apps | 64only image; Apple M-series likely lacks AArch32 (unverified) |
 | Play Store video previews may crash SurfaceFlinger on YV12 | seen on Redroid 15 (redroid-doc #942); untested here |
-| `ConnectivityService` logs `InetDiagMessage ... EAGAIN` and netd `Failed to dump IPv4 sockets` | kernel lacks `CONFIG_INET_DIAG` (+ TCP/UDP diag, `INET_DIAG_DESTROY`); the network still validates, but socket teardown on network changes doesn't work |

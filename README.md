@@ -22,7 +22,7 @@ ANGLE (Apple, Vulkan 1.1.334 (Virtio-GPU Venus (Apple M3 Pro)), venus-26.1.8)
 | GPU rendering (ANGLE → Venus → Metal) | ✓ | ✓ |
 | Apps run without graphics aborts | ✓ | ✓ |
 | Scroll p50/p90/p99 (Settings, steady state) | 5 / 18 / 22 ms | 5 / 7 / 10 ms |
-| Google Play | — | ✓ sign-in works; app install untested ([08](docs/08-google-play.md)) |
+| Google Play | — | ✓ sign-in and app installs (Brave) ([08](docs/08-google-play.md)) |
 | Smooth trackpad scrolling in scrcpy | — | ✓ with the patched scrcpy-server ([10](docs/10-scrcpy-smooth-scroll.md)) |
 
 ## Forks
