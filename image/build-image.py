@@ -48,6 +48,8 @@ def build_layer(gapps, guest, out):
         add(tar, "vendor/etc/init/battery_fixed.rc", (A16 / "battery_fixed.rc").read_bytes(), 0o644)
         add(tar, "vendor/lib64/hw/vulkan.virtio.so", (guest / "vulkan.virtio.so").read_bytes(), 0o644)
         add(tar, "vendor/lib64/hw/gralloc.venus.so", (guest / "gralloc.venus.so").read_bytes(), 0o644)
+        if (guest / "hwcomposer.venus.so").exists():
+            add(tar, "vendor/lib64/hw/hwcomposer.venus.so", (guest / "hwcomposer.venus.so").read_bytes(), 0o644)
 
         with zipfile.ZipFile(gapps) as z:
             seen = set()

@@ -107,7 +107,15 @@ gpu_setup_venus() {
     # MoltenVK lacks geometry shaders so ANGLE caps at ES 3.1; games like MH Outlanders refuse to start below 3.2.
     setprop debug.angle.feature_overrides_enabled exposeES32ForTesting
     setprop ro.hardware.gralloc "$gralloc"
-    echo "gpu_config venus: egl=$egl vulkan=virtio gralloc=$gralloc" > /dev/kmsg
+    # With a host display attached, show SurfaceFlinger's output on it; otherwise keep Redroid's composer.
+    hwc=redroid
+    # Connector status reads "unknown" until probed.
+    for s in /sys/class/drm/card0-*/status; do echo detect > "$s" 2>/dev/null; done
+    if [ -f /vendor/lib64/hw/hwcomposer.venus.so ] && grep -qx connected /sys/class/drm/card0-*/status 2>/dev/null; then
+        hwc=venus
+        setprop ro.hardware.hwcomposer venus
+    fi
+    echo "gpu_config venus: egl=$egl vulkan=virtio gralloc=$gralloc hwc=$hwc" > /dev/kmsg
 }
 
 gpu_setup() {
