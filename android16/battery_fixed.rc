@@ -1,0 +1,7 @@
+# Redroid has no battery; report a full battery on external power so apps see sane values.
+# Power first: a present battery at level 0 without power makes the framework shut down.
+on property:sys.boot_completed=1
+    exec -- /system/bin/cmd battery set ac 1
+    exec -- /system/bin/cmd battery set level 100
+    exec -- /system/bin/cmd battery set status 5
+    exec -- /system/bin/cmd battery set present 1

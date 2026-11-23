@@ -1,0 +1,12 @@
+#!/busybox sh
+# smolvm's container hands Android a read-only /sys and a minimal /dev; apexd needs both for loop-mounted APEXes.
+/busybox mount -o remount,bind,rw /sys
+echo on > /proc/sys/kernel/printk_devkmsg
+/busybox mkdir -p /dev/block
+[ -e /dev/loop-control ] || /busybox mknod -m 0660 /dev/loop-control c 10 237
+i=0
+while [ $i -lt 64 ]; do
+  [ -e /dev/block/loop$i ] || /busybox mknod -m 0660 /dev/block/loop$i b 7 $i
+  i=$((i+1))
+done
+exec /system/bin/init "$@"
