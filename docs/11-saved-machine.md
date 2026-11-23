@@ -1,6 +1,6 @@
 # 11 · Saved Android 16 + Google Play machine
 
-One file that starts a never-booted Android 16 with the Metal GPU path, the battery fix and Google Play, with no build steps. It carries the patched host libraries (libkrun, virglrenderer, MoltenVK, libkrunfw with the 06 kernel) inside, so `SMOLVM_LIB_DIR` is not needed to run it.
+One file that starts a never-booted Android 16 with the Metal GPU path, the battery fix and Google Play, with no build steps. It bundles the patched host libraries (libkrun, virglrenderer, MoltenVK, libkrunfw with the 06 kernel), but `machine create --from` / `machine start` don't use them: `SMOLVM_LIB_DIR` must still point at the private lib dir from 02/06, or the stock kernel boots and Android never starts.
 
 | | |
 |---|---|
@@ -23,6 +23,7 @@ EOF
 
 export GHCR_TOKEN=$(gh auth token)
 smolvm pack pull ghcr.io/savindaa/smolvm-android:16-gplay -o android16-gplay.smolmachine
+export SMOLVM_LIB_DIR=<private lib dir from 02, with the 06 kernel>
 smolvm machine create --name android16 --from android16-gplay.smolmachine --gpu --net -p 5558:5555
 smolvm machine start --name android16
 adb connect 127.0.0.1:5558

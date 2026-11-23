@@ -104,6 +104,8 @@ gpu_setup_venus() {
     setprop gralloc.gbm.device /dev/dri/renderD128
     setprop ro.hardware.vulkan virtio
     setprop ro.hardware.egl "$egl"
+    # MoltenVK lacks geometry shaders so ANGLE caps at ES 3.1; games like MH Outlanders refuse to start below 3.2.
+    setprop debug.angle.feature_overrides_enabled exposeES32ForTesting
     setprop ro.hardware.gralloc "$gralloc"
     echo "gpu_config venus: egl=$egl vulkan=virtio gralloc=$gralloc" > /dev/kmsg
 }

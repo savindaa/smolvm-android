@@ -20,6 +20,7 @@ smolvm machine run -d --name redroid16gpu --net --gpu --mem 4096 --cpus 8 \
 | netd crash-loop on eBPF JIT; netd `inet_diag` errors | kernel fork | [06](06-kernel.md) |
 | every app aborts on present | Mesa: advertise sync_fd fences only when exportable | smolvm fork `patches/mesa-android/0002` |
 | gralloc.venus rejects formats 0x39/0x3a/0x3b | added to gralloc.venus | [04](04-gralloc-venus.md) |
+| ANGLE caps at GLES 3.1 (MoltenVK has no geometry shaders); games like MH Outlanders refuse to start | venus mode sets `debug.angle.feature_overrides_enabled=exposeES32ForTesting` before SurfaceFlinger, so GLES reports 3.2 | [android16/gpu_config.sh](../android16/gpu_config.sh) |
 | battery shows `?` | fixed battery via init rc (below) | [android16/battery_fixed.rc](../android16/battery_fixed.rc) |
 
 Installing the wrapper by hand (skip this block when using the deploy script below, which does the same; busybox taken from the `busybox:musl` image):
