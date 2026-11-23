@@ -51,7 +51,7 @@ A="adb -s 127.0.0.1:5557"
 $A shell getprop sys.boot_completed                       # 1
 $A shell pm list packages | grep -E 'vending|google.android.gms$|gsf$'
 $A shell am start -W -n com.android.vending/com.google.android.finsky.activities.MainActivity
-$A shell dumpsys SurfaceFlinger | grep GLES                # ANGLE ... Virtio-GPU Venus (Apple M3 Pro)
+$A shell dumpsys SurfaceFlinger | grep 'GLES:'             # ANGLE ... Virtio-GPU Venus (Apple M3 Pro)
 ```
 
 Expected on first boot: GMS crashes 2–3 times within seconds with `IllegalArgumentException: Unexpected safety source: AdvancedProtection` (newer GMS registers a Safety Center source the Android 16 r2 platform config doesn't define), then stays up. The Play Store opens to its sign-in flow.

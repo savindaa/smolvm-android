@@ -29,7 +29,7 @@ scripts/deploy-android.sh redroid13gpu 5556
 | Check | Command | Expect |
 |---|---|---|
 | boot | `adb -s 127.0.0.1:5556 shell getprop sys.boot_completed` | `1` |
-| renderer | `adb -s 127.0.0.1:5556 shell dumpsys SurfaceFlinger \| grep GLES` | `ANGLE (Apple, Vulkan … Venus (Apple M…))` |
+| renderer | `adb -s 127.0.0.1:5556 shell dumpsys SurfaceFlinger \| grep 'GLES:'` | `ANGLE (Apple, Vulkan … Venus (Apple M…))` |
 | no aborts | `adb -s 127.0.0.1:5556 logcat -d \| grep 'F DEBUG'` | nothing from RenderThread / `vulkan.virtio.so` |
 | UI | `adb -s 127.0.0.1:5556 exec-out screencap -p > shot.png` | real UI, not black |
 | view | `scrcpy -s 127.0.0.1:5556 --max-fps 60 --no-audio` | live window |
