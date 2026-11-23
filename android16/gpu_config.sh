@@ -118,6 +118,18 @@ gpu_setup_venus() {
     echo "gpu_config venus: egl=$egl vulkan=virtio gralloc=$gralloc hwc=$hwc" > /dev/kmsg
 }
 
+# ueventd never creates nodes for the host's virtio input devices (keyboard, pointer, touch).
+input_nodes() {
+    for d in /sys/class/input/event*; do
+        [ -e "$d/dev" ] || continue
+        n=/dev/input/$(basename "$d")
+        [ -e "$n" ] && continue
+        IFS=: read -r major minor < "$d/dev"
+        mkdir -p /dev/input
+        mknod -m 660 "$n" c "$major" "$minor" && chown root:input "$n"
+    done
+}
+
 gpu_setup() {
     ## mode=(auto, host, guest)
     ## node=(/dev/dri/renderDxxx)
@@ -143,4 +155,5 @@ gpu_setup() {
 }
 
 gpu_setup
+input_nodes
 
