@@ -1,0 +1,8 @@
+image = "./android16-gplay.tar"
+net = true
+gpu = true
+cpus = 8
+memory = 4096
+ports = ["5555:5555"]
+entrypoint = ["/init"]
+cmd = ["qemu=1", "androidboot.hardware=redroid", "androidboot.redroid_gpu_mode=guest", "androidboot.use_memfd=1", "androidboot.redroid_fps=60"]

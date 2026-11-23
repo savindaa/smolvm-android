@@ -42,6 +42,7 @@ Trackpad scrolling in scrcpy looks like tearing but is judder: 0 torn frames in 
 | Android 16 apps abort on present | Venus advertised sync_fd fences it can't export | Mesa 0002 |
 | Android 16 netd `inet_diag` errors | no socket diagnostics in kernel | kernel fork (06) |
 | Android 16 shuts down seconds after boot | battery rc set `present` before power and level | reorder (07) |
+| Android 16 never boots: `RenderEngine: no suitable EGLConfig found`, ANGLE `Extension not supported: VK_KHR_swapchain` | an old `vulkan.virtio.so` (Mesa 24.0.8) deployed | deploy the Mesa 26.1.8 build from 03; check with `strings vulkan.virtio.so \| grep 'Mesa 2'` |
 
 ## Tracing the host
 

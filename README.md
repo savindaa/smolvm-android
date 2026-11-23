@@ -24,6 +24,7 @@ ANGLE (Apple, Vulkan 1.1.334 (Virtio-GPU Venus (Apple M3 Pro)), venus-26.1.8)
 | Scroll p50/p90/p99 (Settings, steady state) | 5 / 18 / 22 ms | 5 / 7 / 10 ms |
 | Google Play | — | ✓ sign-in and app installs (Brave) ([08](docs/08-google-play.md)) |
 | Smooth trackpad scrolling in scrcpy | — | ✓ with the patched scrcpy-server ([10](docs/10-scrcpy-smooth-scroll.md)) |
+| Saved never-booted machine | — | ✓ `ghcr.io/savindaa/smolvm-android:16-gplay`, private ([11](docs/11-saved-machine.md)) |
 
 ## Forks
 
@@ -54,5 +55,6 @@ Then follow [docs/](docs/) in order:
 | 08 | [Google Play](docs/08-google-play.md) | Play Store installs |
 | 09 | [results and troubleshooting](docs/09-results-troubleshooting.md) | numbers, root causes, tracing |
 | 10 | [smooth trackpad scrolling](docs/10-scrcpy-smooth-scroll.md) | patched scrcpy-server |
+| 11 | [saved machine](docs/11-saved-machine.md) | one-file Android 16 + Google Play, private on GHCR |
 
 `SMOLVM_LIB_DIR` must be set on every `smolvm machine run` and `machine start`; without it the stock libs load and Android apps abort.

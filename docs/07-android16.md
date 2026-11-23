@@ -22,7 +22,7 @@ smolvm machine run -d --name redroid16gpu --net --gpu --mem 4096 --cpus 8 \
 | gralloc.venus rejects formats 0x39/0x3a/0x3b | added to gralloc.venus | [04](04-gralloc-venus.md) |
 | battery shows `?` | fixed battery via init rc (below) | [android16/battery_fixed.rc](../android16/battery_fixed.rc) |
 
-Installing the wrapper (session-run; busybox taken from the `busybox:musl` image):
+Installing the wrapper by hand (skip this block when using the deploy script below, which does the same; busybox taken from the `busybox:musl` image):
 
 ```sh
 smolvm machine run --image busybox:musl -v $WORK/bb:/out -- cp /bin/busybox /out/busybox
@@ -31,7 +31,14 @@ smolvm machine exec --name redroid16gpu -- /busybox rm /init
 smolvm machine cp --mode 755 android16/init.wrap redroid16gpu:/init
 ```
 
-Deploy: `scripts/deploy-android.sh redroid16gpu 5557 --android16`.
+Deploy:
+
+```sh
+SMOLVM_FORK=<smolvm android-gpu checkout> OUT=<dir with vulkan.virtio.so and gralloc.venus.so> \
+  BUSYBOX=$WORK/bb/busybox scripts/deploy-android.sh redroid16gpu 5557 --android16
+```
+
+Check the driver before deploying: `strings vulkan.virtio.so | grep 'Mesa 2'` must show `Mesa 26.1.8`. An older build (e.g. Mesa 24) lacks the Android swapchain and SurfaceFlinger crash-loops (09).
 
 ## Battery
 

@@ -13,6 +13,8 @@ The package holds `system/product/{app,etc,framework,lib64,overlay,priv-app}` an
 
 ```sh
 Z=MindTheGapps-16.0.0-arm64-20261023_034858.zip
+R=https://github.com/MindTheGapps/16.0.0-arm64/releases/download/${Z%.zip}
+curl -LO "$R/$Z" -LO "$R/$Z.sha256sum"
 shasum -a 256 -c "$Z.sha256sum"
 mkdir gapps16 && cd gapps16 && unzip -q "../$Z"
 mkdir stage && cp -R system/product system/system_ext stage/
@@ -24,6 +26,7 @@ find . -type d -exec chmod 755 {} +
 find . -type f -exec chmod 644 {} +
 COPYFILE_DISABLE=1 tar --uid 0 --gid 0 --uname root --gname root --no-mac-metadata \
   -cf ../gapps16.tar product system_ext
+cd ../..
 ```
 
 The installer's own rules (from `META-INF/com/google/android/update-binary`): dirs 0755, files 0644 (0755 only for `.sh` or extension-less files; the 16.0.0 package has none), owner root, and `rm -rf system_ext/priv-app/Provision` only when SetupWizard is present.
@@ -32,7 +35,7 @@ The installer's own rules (from `META-INF/com/google/android/update-binary`): di
 
 ```sh
 export SMOLVM_LIB_DIR=$WORK/klib
-smolvm machine cp --mode 644 gapps16.tar redroid16gpu:/data/local/tmp/gapps16.tar
+smolvm machine cp --mode 644 gapps16/gapps16.tar redroid16gpu:/data/local/tmp/gapps16.tar
 smolvm machine exec --name redroid16gpu -- sh -c \
   'cd /system && tar -xpf /data/local/tmp/gapps16.tar && rm /data/local/tmp/gapps16.tar'
 smolvm machine stop --name redroid16gpu

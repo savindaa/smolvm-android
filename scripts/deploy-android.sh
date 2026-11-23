@@ -31,9 +31,14 @@ fi
 
 smolvm machine stop --name "$MACHINE"
 smolvm machine start --name "$MACHINE"
+adb disconnect "127.0.0.1:$PORT" >/dev/null 2>&1 || true
+booted=
 for _ in $(seq 60); do
     adb connect "127.0.0.1:$PORT" >/dev/null 2>&1 || true
-    [[ "$(adb -s "127.0.0.1:$PORT" shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')" == 1 ]] && break
+    # A restarted machine leaves adb holding a dead "offline" connection.
+    [[ "$(adb devices | awk -v d="127.0.0.1:$PORT" '$1==d{print $2}')" == offline ]] && adb disconnect "127.0.0.1:$PORT" >/dev/null 2>&1
+    [[ "$(adb -s "127.0.0.1:$PORT" shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')" == 1 ]] && { booted=1; break; }
     sleep 3
 done
-adb -s "127.0.0.1:$PORT" shell dumpsys SurfaceFlinger | grep -m1 GLES || echo "renderer not reported yet"
+[[ -n "$booted" ]] || { echo "not booted after 180 s; see docs/09" >&2; exit 1; }
+adb -s "127.0.0.1:$PORT" shell dumpsys SurfaceFlinger | grep -m1 'GLES:'
